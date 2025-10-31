@@ -1,0 +1,183 @@
+Here are the **answers** to the five Python practice questions I gave earlier. Each includes code snippets that you can run or modify as needed.
+
+---
+
+## ✅ **Question 1: Employee Attendance Tracker**
+
+```python
+# 1. Create dictionary
+employees = {
+    "John": {"2025-10-01": "Present", "2025-10-02": "Absent"},
+    "Sara": {"2025-10-01": "Present", "2025-10-02": "Present"},
+    "Mike": {"2025-10-01": "Absent", "2025-10-02": "Present"}
+}
+
+# 2. Print dictionary
+print(employees)
+
+# 3. Attendance percentage
+def attendance_percentage():
+    for name, records in employees.items():
+        total = len(records)
+        present = sum(1 for status in records.values() if status == "Present")
+        percent = (present / total) * 100
+        print(f"{name}: {percent:.2f}% attendance")
+
+attendance_percentage()
+
+# 4. Add new entry
+employees["John"]["2025-10-03"] = "Present"
+
+# 5. Remove employee
+del employees["Mike"]
+```
+
+---
+
+## 🛒 **Question 2: Online Shopping Cart**
+
+```python
+# 1. Create cart
+cart = [
+    {"item_name": "Laptop", "price": 50000, "quantity": 1},
+    {"item_name": "Mouse", "price": 500, "quantity": 2}
+]
+
+# 2. Print cart
+print(cart)
+
+# 3. Total cost
+def total_cost():
+    total = sum(item["price"] * item["quantity"] for item in cart)
+    print(f"Total cost: ₹{total}")
+
+total_cost()
+
+# 4. Add item
+cart.append({"item_name": "Keyboard", "price": 1500, "quantity": 1})
+
+# 5. Remove item
+cart = [item for item in cart if item["item_name"] != "Mouse"]
+```
+
+---
+
+## 🏨 **Question 3: Hotel Room Booking System**
+
+```python
+# 1. Create hotel data
+hotels = {
+    "Hotel Paradise": [
+        {"room_number": 101, "booked": False},
+        {"room_number": 102, "booked": True}
+    ]
+}
+
+# 2. Print hotels
+print(hotels)
+
+# 3. List available rooms
+def available_rooms(hotel_name):
+    rooms = hotels.get(hotel_name, [])
+    available = [room["room_number"] for room in rooms if not room["booked"]]
+    print(f"Available rooms in {hotel_name}: {available}")
+
+available_rooms("Hotel Paradise")
+
+# 4. Book a room
+def book_room(hotel_name, room_number):
+    for room in hotels.get(hotel_name, []):
+        if room["room_number"] == room_number and not room["booked"]:
+            room["booked"] = True
+            print(f"Room {room_number} booked.")
+            return
+    print("Room not available or already booked.")
+
+book_room("Hotel Paradise", 101)
+
+# 5. Cancel booking
+def cancel_booking(hotel_name, room_number):
+    for room in hotels.get(hotel_name, []):
+        if room["room_number"] == room_number and room["booked"]:
+            room["booked"] = False
+            print(f"Room {room_number} booking cancelled.")
+            return
+    print("Room not found or not booked.")
+
+cancel_booking("Hotel Paradise", 102)
+```
+
+---
+
+## 📚 **Question 4: Library Management System**
+
+```python
+# 1. Create library
+library = {
+    "Python Basics": {"author": "John Doe", "copies_available": 3, "borrowed": 0},
+    "Data Science": {"author": "Jane Smith", "copies_available": 2, "borrowed": 1}
+}
+
+# 2. Print library
+print(library)
+
+# 3. Borrow book
+def borrow_book(title):
+    book = library.get(title)
+    if book and book["copies_available"] > 0:
+        book["copies_available"] -= 1
+        book["borrowed"] += 1
+        print(f"Borrowed '{title}'")
+    else:
+        print("Book not available")
+
+borrow_book("Python Basics")
+
+# 4. Return book
+def return_book(title):
+    book = library.get(title)
+    if book and book["borrowed"] > 0:
+        book["copies_available"] += 1
+        book["borrowed"] -= 1
+        print(f"Returned '{title}'")
+    else:
+        print("No borrowed copies to return")
+
+return_book("Data Science")
+
+# 5. Add new book
+library["AI Fundamentals"] = {"author": "Alan Turing", "copies_available": 5, "borrowed": 0}
+```
+
+---
+
+## 🧾 **Question 5: Expense Tracker**
+
+```python
+# 1. Create expenses
+expenses = {
+    "Food": [200, 150, 300],
+    "Transport": [50, 100]
+}
+
+# 2. Print expenses
+print(expenses)
+
+# 3. Total per category
+def total_expenses():
+    for category, amounts in expenses.items():
+        total = sum(amounts)
+        print(f"{category}: ₹{total}")
+
+total_expenses()
+
+# 4. Add expense
+expenses["Food"].append(250)
+
+# 5. Remove category
+del expenses["Transport"]
+```
+
+---
+
+Would you like these bundled into a single Python file or want me to generate more questions like these?
