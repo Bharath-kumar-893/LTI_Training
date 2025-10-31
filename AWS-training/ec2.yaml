@@ -1,0 +1,52 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "EC2 Instance with Parameters, Mapping, and Rule"
+ 
+Parameters:
+  InstanceType:
+    Type: String
+    Default: t3.micro
+    AllowedValues:
+      - t3.micro
+      - t3.micro
+      - t3.small
+    Description: "Select the EC2 instance type"
+ 
+  Environment:
+    Type: String
+    Default: dev
+    AllowedValues:
+      - dev
+      - prod
+    Description: "Choose environment type"
+ 
+Mappings:
+  RegionMap:
+    ap-south-2:
+      AMI: ami-058a677191f2d3b4b
+    ap-south-1:
+      AMI: i-0b809bc3dadca026a
+ 
+Rules:
+  CheckEnvType:
+    Assertions:
+      - Assert: !Or
+          - !And
+            - !Equals [!Ref Environment, "dev"]
+            - !Equals [!Ref InstanceType, "t3.micro"]
+          - !And
+            - !Equals [!Ref Environment, "prod"]
+            - !Equals [!Ref InstanceType, "t3.small"]
+        AssertDescription: "In DEV use t2.micro; in PROD use t3.small."
+ 
+Resources:
+  MyEC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !FindInMap
+        - RegionMap
+        - !Ref AWS::Region
+        - AMI
+      InstanceType: !Ref InstanceType
+      Tags:
+        - Key: Name
+          Value: !Sub "Server-${Environment}"

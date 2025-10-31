@@ -1,0 +1,39 @@
+aws ec2 describe-instances
+aws ec2 start-instances --instance-ids i-1234567890abcdef0
+aws ec2 stop-instances --instance-ids i-1234567890abcdef0
+
+
+aws s3 ls                          # List buckets
+aws s3 mb s3://my-bucket-name      # Make bucket
+aws s3 cp file.txt s3://my-bucket-name/  # Upload file
+aws s3 sync ./local-folder s3://my-bucket-name/  # Sync folder
+aws s3 rm s3://my-bucket-name/file.txt  # Delete file
+
+aws iam list-users
+aws iam create-user --user-name NewUser
+aws iam attach-user-policy --user-name NewUser --policy-arn arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess
+
+aws cloudwatch list-metrics
+aws cloudwatch get-metric-statistics \
+  --namespace AWS/EC2 \
+  --metric-name CPUUtilization \
+  --dimensions Name=InstanceId,Value=i-1234567890abcdef0 \
+  --start-time 2025-10-07T00:00:00Z \
+  --end-time 2025-10-08T00:00:00Z \
+  --period 300 \
+  --statistics Average
+
+
+aws rds describe-db-instances
+aws rds start-db-instance --db-instance-identifier mydb
+aws rds stop-db-instance --db-instance-identifier mydb
+
+
+aws ec2 describe-vpcs
+aws ec2 create-vpc --cidr-block 10.0.0.0/16
+aws ec2 describe-subnets
+
+
+aws sagemaker list-notebook-instances
+aws sagemaker start-notebook-instance --notebook-instance-name my-notebook
+aws sagemaker stop-notebook-instance --notebook-instance-name my-notebook
