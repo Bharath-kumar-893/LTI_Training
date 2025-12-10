@@ -1,0 +1,101 @@
+✅ Part 1: Create a Network Load Balancer (NLB)
+Step 1: Navigate to Load Balancer
+
+Go to AWS Console → EC2 → Load Balancers → Create Load Balancer.
+Select Network Load Balancer.
+
+Step 2: Configure Basic Settings
+
+Name: e.g., payment-nlb.
+Scheme: Internal (for PrivateLink).
+IP Address Type: IPv4.
+VPC: Choose the Service Provider VPC.
+Availability Zones: Select at least two subnets for high availability.
+
+Step 3: Configure Listeners
+
+Add a TCP listener:
+
+Port: 443 (HTTPS) or 80 (HTTP).
+
+
+If using HTTPS, you’ll later attach an SSL certificate via ACM.
+
+Step 4: Create Target Group
+
+Go to Target Groups → Create Target Group:
+
+Type: Instance or IP.
+Protocol: TCP.
+Port: Same as listener (443 or 80).
+
+
+Register your backend EC2 instances or IPs.
+
+Step 5: Register Targets
+
+Add your service instances (e.g., API servers) to the target group.
+
+
+✅ Part 2: Integrate NLB with PrivateLink
+Step 6: Create Endpoint Service
+
+Go to VPC → Endpoint Services → Create Endpoint Service.
+Select the NLB you created.
+Enable Acceptance Required (optional for security).
+Add Allowed Principals:
+
+If cross-account, add the ARN of the consumer account.
+
+
+
+Step 7: Share Service Name
+
+Copy the Service Name (looks like com.amazonaws.vpce.<region>.service-xxxx).
+Share it with the Consumer VPC owner.
+
+
+✅ Part 3: Consumer VPC Setup
+
+In the Consumer account:
+
+Go to VPC → Endpoints → Create Endpoint.
+Select Find service by name and paste the Service Name.
+Choose subnets in the Consumer VPC.
+Attach security groups allowing traffic to the service.
+Enable Private DNS if you want DNS resolution.
+
+
+
+
+✅ Step 4: Accept Connection
+
+Service Provider account:
+
+Go to Endpoint Services → Endpoint Connections.
+Accept the pending request.
+
+
+
+
+✅ Step 5: Test Connectivity
+
+From Consumer EC2:
+ShellShow more lines
+
+Verify response from the Service Provider API.
+
+
+Best Practices
+
+Use TLS certificates for secure communication.
+Enable VPC Flow Logs for monitoring.
+Apply least privilege IAM policies.
+
+
+✅ Architecture Summary
+[ Consumer VPC ] ---- PrivateLink ---- [ Service Provider VPC ]
+       EC2 (App)                          NLB + Endpoint Service
+       Interface Endpoint                 Backend Targets
+
+_______________________________________________________________________________________________________
