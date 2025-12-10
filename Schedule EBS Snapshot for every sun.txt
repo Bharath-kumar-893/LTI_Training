@@ -1,0 +1,1 @@
+Schedule EBS Snapshot for every sunday 8 AM
